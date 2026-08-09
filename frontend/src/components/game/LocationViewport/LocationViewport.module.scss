@@ -1,0 +1,58 @@
+.locationViewport {
+  flex-grow: 1;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+
+  .locationBgContainer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    background-color: #151a1e;
+
+    .locationBgImg {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+
+  .characterSpriteContainer {
+    position: absolute;
+    bottom: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+
+    .characterImg {
+      max-height: 300px;
+      object-fit: contain;
+    }
+  }
+
+  .locationTextBox {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.95) 85%, rgba(0, 0, 0, 0));
+    padding: 35px 20px 20px 20px;
+    box-sizing: border-box;
+
+    .locationTitle {
+      font-size: 22px;
+      margin: 0 0 10px 0;
+      color: var(--color-primary);
+    }
+
+    .locationDescribtion {
+      font-size: 15px;
+      line-height: 1.5;
+      color: #e0e0e0;
+      margin: 0;
+    }
+  }
+}

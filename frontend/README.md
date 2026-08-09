@@ -1,36 +1,220 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🍃 Hidden Leaf Quest
 
-## Getting Started
+Текстовая RPG-игра и интернет-магазин во вселенной Наруто. Проект разработан на базе архитектуры монорепозитория.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## 🚀 Быстрый старт
+
+### 1. Клонирование проекта
+Откройте терминал на своем компьютере, перейдите в рабочую папку и скачайте репозиторий:
+```cmd
+git clone <ссылка_на_ваш_github_репозиторий>
+cd Hidden-Leaf-Quest
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 2. Установка зависимостей
+Установка пакетов выполняется «из коробки» отдельно для каждой части проекта:
+```cmd
+# Установка для бэкенда
+cd backend
+npm install
+cd ..
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+# Установка для фронтенда
+cd frontend
+npm install
+cd ..
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 3. Запуск в режиме разработки (Dev Mode)
+Для полноценной работы запустите обе части в двух разных терминалах:
+*   **Бэкенд:** В папке `backend/` запустите `npm run dev` (сервер включится на `http://localhost:5000`)
+*   **Фронтенд:** В папке `frontend/` запустите `npm run dev` (сайт откроется на `http://localhost:3000`)
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 📂 Структура проекта
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+*   `backend/` — Серверная часть на Node.js, Express и TypeScript 7.
+*   `frontend/` — Клиентская часть на Next.js (App Router) и Sass Modules.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Архитектура компонентов (Frontend)
+Все компоненты клиента хранятся в `frontend/src/components/` и строго разделены на три категории:
+1.  **`ui/`** — Базовые переиспользуемые элементы интерфейса (UI Kit) без игровой логики.
+    *   `Button/` — Универсальная кнопка. Поддерживает пропсы `children` и `variant` (`primary`, `secondary`, `danger`).
+2.  **`game/`** — Компоненты игрового интерфейса текстовой RPG.
+    *   `PlayerStatusBar/` — Панель со статусом шиноби (Имя, Ранг, Баланс Рё).
+    *   `LocationViewport/` — Игровой экран (Фон, спрайт персонажа, окно сюжета).
+    *   `ActionDock/` — Нижняя панель с кнопками действий.
+3.  **`shop/`** — Компоненты интернет-магазина снаряжения.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🎨 Стандарты разработки
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+*   **Стилизация:** Используются исключительно **Sass Modules** (`*.module.scss`). Имена классов пишутся в стиле **camelCase** (например, `.playerStatusBar`).
+*   **Палитра:** Все цвета строго берутся из глобальных переменных в `globals.css` (`var(--color-primary)`, `var(--color-surface)` и т.д.). По функциональному стандарту: `primary` — оранжевый, `secondary` — красный, `surface` — фон плашек.
+*   **Типизация:** Для всех пропсов компонентов обязательно создание `interface` и JSDoc-документирование (`/** описание */`).
+
+---
+
+## 🌿 Регламент работы с Git и ветками
+
+Прямые коммиты в ветку `main` запрещены. Вся разработка ведется через изолированные ветки по следующему циклу:
+
+```bash
+# 1. Перед задачей скачиваем свежий код и создаем ветку
+git checkout main
+git pull origin main
+git checkout -b feature/название-фичи
+
+# 2. Фиксируем работу понятными коммитами
+git add .
+git commit -m "feat(status): add component layout"
+
+# 3. Синхронизируем ветку перед отправкой во избежание конфликтов
+git checkout main
+git pull origin main
+git checkout feature/название-фичи
+git merge main
+
+# 4. Выталкиваем ветку на GitHub и создаем Pull Request
+git push origin feature/название-фичи
+```
+После одобрения Pull Request Тимлидом применяется метод **Squash and Merge** для сохранения чистой истории коммитов в `main`.
+
+## Шаблон для создания компонентов
+
+# 1. Создать папку с названием компонента
+```bash
+mkdir Component
+```
+
+# 2. Создать стили для компонента
+```bash
+touch Component.module.scss
+```
+
+# 2. Создать компонент
+```typescript
+'use client';
+import styles from './Component.module.scss';
+// interface ComponentProps {};
+export const Component = () => {
+    const { className } = styles;
+    return (
+        <div className={className}></div>
+    );
+};
+```
+## Шпаргалка по типизации
+
+```typescript
+'use client';
+import { useState } from 'react';
+
+// 1. Интерфейс (Обычные типы)
+interface ShinobiProps {
+    name: string;
+    rank?: 'Genin' | 'Chunin'; // Необязательное поле / Выбор строк
+    onClick: () => void;       // Функция пропс (Ничего не возвращает)
+    onReward: () => number;    // Функция пропс (Возвращает число)
+}
+
+// 2. Отдельный тип функции
+type CustomFunc = () => number; // Схема функции
+
+const testFun: CustomFunc = () => 1; // Реализация схемы
+
+// 3. Компонент (Классический props)
+export const ShinobiCard = (props: ShinobiProps) => {
+    const variant = props.rank || 'Genin'; // Дефолт (Без деструктуризации)
+    
+    return <button onClick={props.onClick}>{props.name}</button>;
+};
+
+// 4. Компонент (Деструктуризация + Переименование)
+export const InputField = ({ 
+    text: newName,              // Переименование переменной (JS-логика)
+    variant = 'primary'         // Дефолт (Внутри параметров)
+}: { text: string; variant?: string }) => { // Типизация (TS-логика)
+    
+    return <input defaultValue={newName} />;
+};
+
+// 5. Хук useState
+export const Game = () => {
+    const [hp, setHp] = useState(100); // Авто-выведение (Тип: number)
+    const [items, setItems] = useState<string[]>([]); // Ручной тип (Массив строк)
+};
+```
+
+---
+
+## 🛠️ Шпаргалка по компонентам
+
+### 1. Как ДЕЛАТЬ компоненты (Правила архитектуры)
+
+*   **Изоляция файлов:** Код `.tsx` и стили `.module.scss` строго разделяются. Не смешивать их в один файл.
+*   **Имена классов:** Называть в стиле `camelCase` (например, `.btnAction`). Никаких дефсиов!
+*   **Правило динамических классов:** Для склеивания базового класса и переменной `variant` использовать кавычки-шаблоны и **только один чистый пробел**. Знаки плюс `+` внутри кавычек ломают верстку!
+*   **Использование классов:** В тегах `<span>` или `<button>` всегда явно указывать итоговую собранную переменную (например, `badgeClass`), а не статичный одиночный класс.
+
+```typescript
+// 📁 Пример: components/ui/Badge/Badge.tsx
+
+import styles from './Badge.module.scss';
+
+interface BadgeProps {
+    children: React.ReactNode; // Универсальный контейнер для текста между тегами
+    variant?: 'primary' | 'danger'; // Контроль дизайна через TypeScript
+}
+
+export const Badge = ({ children, variant = 'primary' }: BadgeProps) => {
+    const { badge } = styles; // 💡 Быстрая распаковка (деструктуризация) объекта стилей
+    
+    // 💡 ИСПРАВЛЕНИЕ: Только пробел! Никаких плюсов `${badge} + ${styles[variant]}`
+    const badgeClass = `${badge} ${styles[variant]}`; 
+
+    return (
+        // 💡 ИСПРАВЛЕНИЕ: Передаем собранный badgeClass, а не просто статичный badge
+        <span className={badgeClass}>
+            {children}
+        </span>
+    );
+};
+```
+
+### 2. Как ИСПОЛЬЗОВАТЬ компоненты (Правила вызова)
+
+*   **Чистый текст внутри UI-элементов:** Не оборачивать текст во внутренние теги `<div>text</div>` при вызове строчных элементов (`Badge`, `Button`). Блочный `div` ломает и растягивает всю верстку кирпичика.
+*   **Контролируемые инпуты (`useState`):** Не передавать в `value` жесткие текстовые строки. Инпут «замерзнет». Передавать только живую переменную состояния, а в `onChange` — функцию её обновления.
+*   **Динамическая валидация:** Чтобы ошибка инпута не горела бесконечно, пропс `error` должен зависеть от длины или условий введенной переменной, а не быть жестким текстом.
+
+```tsx
+// 📁 Пример использования на Главной странице (page.tsx)
+
+import { useState } from 'react';
+import { Badge } from '@/components/ui/Badge/Badge';
+import { Input } from '@/components/ui/Input/Input';
+
+export default function Home() {
+  const [text, setText] = useState('');
+
+  return (
+    <main>
+      {/* 💡 ИСПРАВЛЕНИЕ: Передаем чистый текст, без <div>text</div> */}
+      <Badge variant="danger">Акацуки</Badge>
+
+      {/* 💡 ИСПРАВЛЕНИЕ: value привязан к переменной, error — к условию */}
+      <Input 
+        placeholder="Введите промокод..." 
+        value={text}       
+        onChange={setText} // Посредник (e) => e.target.value уже скрыт внутри компонента!
+        error={text.length > 0 && text !== 'SHINOBI' ? 'Неверный шифр!' : undefined}
+      />
+    </main>
+  );
+}
+```

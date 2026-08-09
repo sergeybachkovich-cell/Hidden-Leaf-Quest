@@ -1,0 +1,22 @@
+// 
+.card {
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 20px;
+    box-sizing: border-box;
+}
+// 
+.cardHoverable {
+    cursor: pointer;
+
+    &:hover {
+        transform: translate(-4px); // Плавное поднятие карточки вверх
+        border-color: rgba(255, 107, 0, 0.4);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3); // появление мягкой тени снизу
+    }
+
+    // Эффект легкого вдавливания при клике
+    &:active {
+        transform: translateY(-1px);
+    }
+}
