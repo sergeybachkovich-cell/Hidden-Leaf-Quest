@@ -1,36 +1,36 @@
 import styles from './LocationViewport.module.scss';
 
 interface LocationViewportProps {
-  title: string;
-  description: string;
+  /** Путь к картинке-фону локации */
+  scrBg?: string;
+  /** Путь к картинке персонажа */
+  scrPers?: string;
 }
 
-export const LocationViewport = ({ title, description }: LocationViewportProps) => {
+export const LocationViewport = (props: LocationViewportProps) => {
+  const bg = props.scrBg || undefined,
+        person = props.scrPers || undefined;
+
   const {
     locationViewport,
     locationBgContainer,
     locationBgImg,
     characterSpriteContainer,
     characterImg,
-    locationTextBox,
-    locationTitle,
-    locationDescribtion
   } = styles;
 
   return (
     <div className={locationViewport}>
+      {/* Контейнер для арта локации */}
       <div className={locationBgContainer}>
-        <img src={undefined} alt="*КАРТИНКА ЛОКАЦИИ*" className={locationBgImg} />
+        <img src={bg} alt="*КАРТИНКА ЛОКАЦИИ*" className={locationBgImg} />
       </div>
 
+      {/* Контейнер для PNG спрайта персонажа (с кем идет диалог) */}
       <div className={characterSpriteContainer}>
-        <img src={undefined} alt="КАРТИНКА ПЕРСОНАЖА" className={characterImg} />
+        <img src={person} alt="КАРТИНКА ПЕРСОНАЖА" className={characterImg} />
       </div>
 
-      <div className={locationTextBox}>
-        <h2 className={locationTitle}>{title}</h2>
-        <p className={locationDescribtion}>{description}</p>
-      </div>
     </div>
   );
 };
