@@ -1,0 +1,33 @@
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase; // Делает текст капсом
+    letter-spacing: 0.5px;
+    width: fit-content;
+
+    // 1. Оранжевый вариант (Категории, важные статусы)
+    &.primary {
+        background-color: rgba(255, 107, 0, 0.12);
+        border: 1px solid rgba(255, 107, 0, 0.3);
+        color: var(--color-primary);
+    }
+
+    // 2. Красный вариант (Высокий ранг опасности, Акацуки)
+    &.danger {
+        background-color: rgba(153, 0, 0, 0.15);
+        border: 1px solid rgba(153, 0, 0, 0.4);
+        color: #ff4a4a;
+    }
+
+    // 3. Серый приглушенный вариант (Обычные предметы, архивные квесты)
+    &.muted {
+        background-color: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--color-border);
+        color: var(--color-text-muted);
+    }
+}

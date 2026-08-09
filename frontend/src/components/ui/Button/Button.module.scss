@@ -1,0 +1,50 @@
+.btnAction {
+  flex: 1;
+  background-color: transparent;
+  color: var(--color-text-main);
+  border: 1px solid rgba(255, 107, 0, 0.3);
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+
+  // 1. Модификатор: Главный оранжевый стиль (class="btnAction primary")
+  &.primary {
+    background-color: var(--color-primary);
+    border-color: var(--color-primary);
+    color: #000000;
+
+    &:hover {
+      filter: brightness(1.1); // Слегка подсвечиваем при наведении
+    }
+  }
+
+  // 2. Модификатор: Второстепенный прозрачный стиль (class="btnAction secondary")
+  &.secondary {
+    background-color: transparent;
+    border-color: rgba(255, 107, 0, 0.3);
+    color: var(--color-text-main);
+
+    &:hover {
+      background-color: var(--color-primary);
+      border-color: var(--color-primary);
+      color: #000000;
+    }
+  }
+
+  // 3. Модификатор: Опасный красный стиль Акацуки (class="btnAction danger")
+  &.danger {
+    background-color: transparent;
+    border-color: rgba(153, 0, 0, 0.4);
+    color: var(--color-text-main);
+
+    &:hover {
+      background-color: var(--color-secondary);
+      border-color: var(--color-secondary);
+      color: #ffffff;
+    }
+  }
+}
