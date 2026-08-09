@@ -1,0 +1,71 @@
+// Задний фон-затемнение для фокуса на карте
+.mapOverlay {
+  background-color: rgba(0, 0, 0, 0.4);
+  border-top: 1px solid var(--color-border);
+  padding: 15px 20px;
+}
+
+// Контейнер самой карты
+.mapWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .mapTitle {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+// Сетка для карточек зданий
+.mapBuildingsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); // Делит экран ровно на 3 колонки
+  gap: 12px;
+}
+
+// Кликабельная карточка здания
+.buildingCard {
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-primary); // Подсветка оранжевым при наведении
+  }
+
+  // Графическая заглушка под будущую картинку здания
+  .buildingImageDummy {
+    width: 100%;
+    height: 60px;
+    background-color: rgba(255, 255, 255, 0.03);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    border: 1px dashed rgba(255, 255, 255, 0.1);
+
+    // Индивидуальные фоны для вайба (пока в виде смайликов/оттенков)
+    &.gatesBg { background: rgba(255, 107, 0, 0.05); }
+    &.armoryBg { background: rgba(255, 255, 255, 0.05); }
+    &.hokageBg { background: rgba(255, 0, 0, 0.05); }
+  }
+
+  .buildingName {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-main);
+  }
+}
