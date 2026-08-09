@@ -11,6 +11,9 @@ interface ButtonProps {
      * 'primary' — оранжевый, 'secondary' — прозрачный, 'danger' — красный 
      */
     variant?: 'primary' | 'secondary' | 'danger';
+
+    /** Функция-обработчик клика по кнопке */
+    onClick?: () => void; // 💡 ДОБАВИЛИ СТРОКУ
 };
 
 /**
@@ -19,17 +22,17 @@ interface ButtonProps {
  */
 
     // export const Button = (props: ButtonProps) => {
-export const Button = ({ children, variant }: ButtonProps) => { // PS.. тоже самое что и ^
+export const Button = ({ children, variant = 'primary', onClick }: ButtonProps) => { // PS.. тоже самое что и ^
     /* const children = props.children;
         const variant = props.variant; */
     // const {children, variant} = props; PS.. тоже самое что и ^
 
     // const btnAction = styles.btnAction;
     const { btnAction } = styles; // PS.. тоже самое что и ^
-    const buttonClass = `${btnAction} ${variant}`;
+    const buttonClass = `${btnAction} ${styles[variant]}`;
 
     return (
-        <button className={buttonClass}>
+        <button className={buttonClass} onClick={onClick}>
             {children}
         </button>
     );

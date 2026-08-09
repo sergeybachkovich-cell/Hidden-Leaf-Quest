@@ -1,16 +1,31 @@
-'use client';
-
 import styles from './ActionDock.module.scss';
-import { Button } from '@/components/ui/Button/Button';
+import { Button } from '../../ui/Button/Button';
 
-export const ActionDock = () => {
-    const {
-        actionDock,
-    } = styles;
-    return (
-        <div className={actionDock}>
-            <Button variant='primary'>Заглянуть в оружейную</Button>
-            <Button variant='primary'>Взять миссию у Хокаге</Button>
-        </div>
-    );
+interface ActionItem {
+  text: string;
+  target: string;
 }
+
+interface ActionDockProps {
+  actions: ActionItem[];
+  onActionClick: (target: string) => void;
+}
+
+export const ActionDock = ({ actions, onActionClick }: ActionDockProps) => {
+  const { actionDock } = styles;
+
+  return (
+    <div className={actionDock}>
+      {/* Динамически перебираем массив действий и выводим наши UI-кнопки */}
+      {actions.map((action, index) => (
+        <Button 
+          key={index} 
+          variant="secondary" 
+          onClick={() => onActionClick(action.target)}
+        >
+          {action.text}
+        </Button>
+      ))}
+    </div>
+  );
+};

@@ -1,24 +1,50 @@
 'use client';
-import styles from './page.module.scss';
-import { PlayerStatusBar } from '@/components/game/PlayerStatusBar/PlayerStatusBar';
+
+import { LOCATIONS_DATA } from '@/shared/data/locations';
+import { useGameController } from '@/shared/hooks/useStoryController';
+import { EventWindow } from '@/components/game/EventWindow/EventWindow';
 import { LocationViewport } from '@/components/game/LocationViewport/LocationViewport';
-import { ActionDock } from '@/components/game/ActionDock/ActionDock';
 
 export default function Home() {
-  const { gameLayout } = styles;
-  
+  // 💡 ИДЕАЛЬНОЕ СОВПАДЕНИЕ: Все переменные успешно достаются из хука без паники TypeScript!
+  const { 
+    currentLocKey, 
+    playerBalance, 
+    isMapOpen, 
+    isEventOpen, 
+    setIsMapOpen, 
+    handleActionClick 
+  } = useGameController();
+
+  const sceneText = LOCATIONS_DATA[currentLocKey];
+
   return (
-    <main className={gameLayout}>
-      {/* 1. Панель статуса шиноби */}
-      <PlayerStatusBar />
-
-      {/* 2. Главное окно локации */}
-      <LocationViewport />
-
-      {/* 3. Нижняя панель */}
-      <ActionDock />
-
+    <main>
+      {/* Графика получает картинки из базы */}
+      <LocationViewport scrBg={sceneText.bgImage} scrPers={sceneText.characterImage} />
       
+      {/* 5. Окно событий */}
+      {isEventOpen && (
+        <EventWindow 
+          title={sceneText.title}
+          description={sceneText.description}
+          onActionClick={handleActionClick}
+          primaryAction={{ 
+            text: sceneText.mainButtonText, 
+            target: sceneText.mainButtonCommand 
+          }}
+      
+          action2={sceneText.extraButtonText && sceneText.extraButtonCommand ? { 
+            text: sceneText.extraButtonText, 
+            target: sceneText.extraButtonCommand 
+          } : undefined}
+
+          action3={undefined}
+          action4={undefined}
+          actionPrev={undefined}
+          actionNext={undefined}
+        />
+      )}
     </main>
   );
-};
+}
