@@ -2,7 +2,7 @@
 import styles from './EventWindow.module.scss';
 import { Button } from '@/components/ui/Button/Button';
 
-// описывает структуру одной папки
+// Описываю структуру кнопки
 interface EventAction {
     /** Текст на кнопке */
     text: string;
