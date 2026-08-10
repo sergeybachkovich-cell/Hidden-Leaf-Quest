@@ -17,7 +17,7 @@ export const Badge = (props: BadgeProps) => {
     const { children, variant = 'primary' } = props;
     const { badge } = styles;
 
-    // Собираю классы стилей
+    // Динамическое склеивание базового класса .badge и нужного цвета
     const badgeClass = `${badge} ${styles[variant]}`;
     return (
         <span className={badgeClass}>

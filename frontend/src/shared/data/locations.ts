@@ -9,12 +9,12 @@ export interface LocationSceneText {
   extraButtonCommand?: string;
 }
 
-// Гарантирую наличие всех трех локаций
+// 💡 Record гарантирует TypeScript, что в базе есть ВСЕ ТРИ локации без исключений
 export const LOCATIONS_DATA: Record<'gates' | 'armory' | 'hokage', LocationSceneText> = {
   gates: {
     title: 'Главные ворота Конохи',
     description: 'Перед вами раскинулась Деревня, Скрытая в Листве. Солнце освещает Лики Хокаге, высеченные на скале. Чунины на посту внимательно осматривают каждого входящего.',
-    bgImage: '/images/bg/gates.webp',
+    bgImage: '/images/bg/gates.jpg',
     characterImage: undefined,
     mainButtonText: '🕵️‍♂️ Осмотреться у ворот',
     mainButtonCommand: 'look_around',
@@ -24,18 +24,18 @@ export const LOCATIONS_DATA: Record<'gates' | 'armory' | 'hokage', LocationScene
   armory: {
     title: 'Оружейная лавка Тен-Тен',
     description: 'Стены лавки увешаны свитками призыва, кунаями и редкими катанами. Хозяйка дружелюбно улыбается вам из-за прилавка, готовая предложить лучшее снаряжение для миссий.',
-    bgImage: '/images/bg/armory.webp',
+    bgImage: '/images/bg/armory.jpg',
     characterImage: '/images/sprites/tenten.png',
     mainButtonText: '🛒 Купить кунай (50 Рё)',
     mainButtonCommand: 'buy_kunai',
     extraButtonText: '🚪 Вернуться к воротам',
     extraButtonCommand: 'gates'
   },
-  // Добавил локацию Хокаге
+  // 💡 ИСПРАВЛЕНО: Добавили локацию Хокаге в базу данных текста
   hokage: {
     title: 'Резиденция Хокаге',
     description: 'В кабинете пахнет старыми свитками и табачным дымом. Седьмой Хокаге внимательно изучает карту текущих угроз. Здесь вы можете взять контракт на миссию ранга S.',
-    bgImage: '/images/bg/hokage.webp',
+    bgImage: '/images/bg/hokage.jpg',
     characterImage: '/images/sprites/naruto_hokage.png',
     mainButtonText: '📜 Взять миссию (Ранг S)',
     mainButtonCommand: 'take_mission',

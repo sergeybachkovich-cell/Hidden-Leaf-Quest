@@ -1,7 +1,9 @@
-import styles from "./LocationViewport.module.scss";
+import styles from './LocationViewport.module.scss';
 
 interface LocationViewportProps {
+  /** Путь к картинке-фону локации */
   scrBg?: string;
+  /** Путь к картинке персонажа */
   scrPers?: string;
 }
 
@@ -21,15 +23,14 @@ export const LocationViewport = (props: LocationViewportProps) => {
     <div className={locationViewport}>
       {/* Контейнер для арта локации */}
       <div className={locationBgContainer}>
-        {/* 💡 Рендерим картинку только если есть путь, и убираем текст из alt */}
-        {bg && <img src={bg} alt="" className={locationBgImg} />}
+        <img src={bg} alt="*КАРТИНКА ЛОКАЦИИ*" className={locationBgImg} />
       </div>
 
-      {/* Контейнер для PNG спрайта персонажа */}
+      {/* Контейнер для PNG спрайта персонажа (с кем идет диалог) */}
       <div className={characterSpriteContainer}>
-        {/* 💡 Рендерим спрайт только если он передан, alt пустой */}
-        {person && <img src={person} alt="" className={characterImg} />}
+        <img src={person} alt="КАРТИНКА ПЕРСОНАЖА" className={characterImg} />
       </div>
+
     </div>
   );
 };
