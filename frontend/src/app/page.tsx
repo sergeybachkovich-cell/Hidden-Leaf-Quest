@@ -4,8 +4,8 @@ import { useGameController } from "@/shared/hooks/useStoryController";
 import { EventWindow } from "@/components/game/EventWindow/EventWindow";
 import { LocationViewport } from "@/components/game/LocationViewport/LocationViewport";
 import { PlayerStatusBar } from "@/components/game/PlayerStatusBar/PlayerStatusBar";
-import { TravelMap } from "@/components/game/TravelMap/TravelMap";
 import { Inventory } from "@/components/game/Inventory/Inventory";
+import { TravelMap } from "@/components/game/TravelMap/TravelMap";
 
 export default function Home() {
   const { currentLocKey, playerBalance, isEventOpen, isInventoryOpen, setIsInventoryOpen, inventoryRecords, handleActionClick } = useGameController();

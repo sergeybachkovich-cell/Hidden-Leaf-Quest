@@ -1,2 +1,74 @@
-﻿import { useState } from "react"; import { INITIAL_INVENTORY_DATA, UserInventoryRecord } from "@/shared/data/items"; export const useGameController = () => { const [currentLocKey, setCurrentLocKey] = useState<"gates" | "armory" | "hokage">("gates"); const [playerBalance, setPlayerBalance] = useState(150); const [hasKunai, setHasKunai] = useState(false); const [hasMission, setHasMission] = useState(false); const [isEventOpen, setIsEventOpen] = useState(true); const [isMapOpen, setIsMapOpen] = useState(false); const [isInventoryOpen, setIsInventoryOpen] = useState(false); const [inventoryRecords, setInventoryRecords] = useState(() => INITIAL_INVENTORY_DATA); const handleNavigation = (target: "gates" | "armory" | "hokage") => { setCurrentLocKey(target); setIsMapOpen(false); }; const handleShopPurchase = (itemId: string) => { if (itemId === "buy_kunai") { if (playerBalance >= 50 && !hasKunai) { setPlayerBalance((prev) => prev - 50); setHasKunai(true); const exists = inventoryRecords.some((r) => r.itemId === "kunai"); if (exists) { setInventoryRecords((prev) => prev.map((r) => r.itemId === "kunai" ? { ...r, count: r.count + 1 } : r)); } else { setInventoryRecords((prev) => [...prev, { itemId: "kunai", slotIndex: 1, count: 1 }]); } alert("Кунай добавлен в снаряжение!"); } else { alert("Ошибка покупки: проверьте баланс или сумку."); } } }; const handleStoryProgress = (actionId: string) => { if (actionId === "take_mission") { setHasMission(true); alert("Контракт миссии ранга S подписан!"); } }; const handleActionClick = (target: string) => { if (target === "look_around" || target === "close_event") { setIsEventOpen(false); setIsMapOpen(true); return; } if (target === "gates" || target === "armory" || target === "hokage") { handleNavigation(target); setIsEventOpen(true); } else if (target.startsWith("buy_")) { handleShopPurchase(target); } else { handleStoryProgress(target); } }; return { currentLocKey, playerBalance, hasKunai, hasMission, isEventOpen, isMapOpen, isInventoryOpen, setIsInventoryOpen, inventoryRecords, handleActionClick }; };
+import { useState } from "react";
+import { INITIAL_INVENTORY_DATA, UserInventoryRecord } from "@/shared/data/items";
 
+export const useGameController = () => {
+  const [currentLocKey, setCurrentLocKey] = useState<"gates" | "armory" | "hokage">("gates");
+  const [playerBalance, setPlayerBalance] = useState(150);
+  const [hasKunai, setHasKunai] = useState(false);
+  const [hasMission, setHasMission] = useState(false);
+  const [isEventOpen, setIsEventOpen] = useState(true);
+  const [isMapOpen, setIsMapOpen] = useState(false);
+  const [isInventoryOpen, setIsInventoryOpen] = useState(false);
+  const [inventoryRecords, setInventoryRecords] = useState(() => INITIAL_INVENTORY_DATA);
+
+  const handleNavigation = (target: "gates" | "armory" | "hokage") => {
+    setCurrentLocKey(target);
+    setIsMapOpen(false);
+  };
+
+  const handleShopPurchase = (itemId: string) => {
+    if (itemId === "buy_kunai") {
+      if (playerBalance >= 50 && !hasKunai) {
+        setPlayerBalance((prev) => prev - 50);
+        setHasKunai(true);
+        const exists = inventoryRecords.some((r) => r.itemId === "kunai");
+        if (exists) {
+          setInventoryRecords((prev) =>
+            prev.map((r) => (r.itemId === "kunai" ? { ...r, count: r.count + 1 } : r))
+          );
+        } else {
+          setInventoryRecords((prev) => [...prev, { itemId: "kunai", slotIndex: 1, count: 1 }]);
+        }
+        alert("Кунай добавлен в снаряжение!");
+      } else {
+        alert("Ошибка покупки: проверьте баланс или сумку.");
+      }
+    }
+  };
+
+  const handleStoryProgress = (actionId: string) => {
+    if (actionId === "take_mission") {
+      setHasMission(true);
+      alert("Контракт миссии ранга S подписан!");
+    }
+  };
+
+  const handleActionClick = (target: string) => {
+    if (target === "look_around" || target === "close_event") {
+      setIsEventOpen(false);
+      setIsMapOpen(true);
+      return;
+    }
+    if (target === "gates" || target === "armory" || target === "hokage") {
+      handleNavigation(target);
+      setIsEventOpen(true);
+    } else if (target.startsWith("buy_")) {
+      handleShopPurchase(target);
+    } else {
+      handleStoryProgress(target);
+    }
+  };
+
+  return {
+    currentLocKey,
+    playerBalance,
+    hasKunai,
+    hasMission,
+    isEventOpen,
+    isMapOpen,
+    isInventoryOpen,
+    setIsInventoryOpen,
+    inventoryRecords,
+    handleActionClick,
+  };
+};
