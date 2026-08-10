@@ -16,7 +16,7 @@ export const Card = (props: CardProps) => {
     const { children, hoverable = false } = props;
     const { card, cardHoverable, } = styles;
 
-    // Включаю анимацию по ховеру
+    // Если передан пропс hoverable=true, добавляем соответствующий класс анимации 
     const cardClass = hoverable ? `${card} ${cardHoverable}` : card;
 
     return (

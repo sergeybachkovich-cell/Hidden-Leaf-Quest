@@ -1,19 +1,39 @@
-import styles from "./Button.module.scss";
+'use client';
+
+import styles from './Button.module.scss';
 
 interface ButtonProps {
-  children: React.ReactNode;
-  variant?: "primary" | "secondary";
-  onClick?: () => void; // Принимаю клик
-  style?: React.CSSProperties;
-}
+    /** Текст или элементы, которые отображаются внутри кнопки */
+    children: React.ReactNode;
 
-export const Button = ({ children, variant = "primary", onClick, style }: ButtonProps) => {
-  const variantClass = variant === "primary" ? styles.primary : styles.secondary;
-  const className = `${styles.btnAction} ${variantClass}`;
+    /** 
+     * Стиль оформления кнопки. 
+     * 'primary' — оранжевый, 'secondary' — прозрачный, 'danger' — красный 
+     */
+    variant?: 'primary' | 'secondary' | 'danger';
 
-  return (
-    <button className={className} onClick={onClick} style={style}>
-      {children}
-    </button>
-  );
+    /** Функция-обработчик клика по кнопке */
+    onClick?: () => void; // 💡 ДОБАВИЛИ СТРОКУ
+};
+
+/**
+ * Универсальная кнопка интерфейса Hidden Leaf Quest.
+ * Поддерживает три встроенных стиля оформления через пропс variant.
+ */
+
+    // export const Button = (props: ButtonProps) => {
+export const Button = ({ children, variant = 'primary', onClick }: ButtonProps) => { // PS.. тоже самое что и ^
+    /* const children = props.children;
+        const variant = props.variant; */
+    // const {children, variant} = props; PS.. тоже самое что и ^
+
+    // const btnAction = styles.btnAction;
+    const { btnAction } = styles; // PS.. тоже самое что и ^
+    const buttonClass = `${btnAction} ${styles[variant]}`;
+
+    return (
+        <button className={buttonClass} onClick={onClick}>
+            {children}
+        </button>
+    );
 };
