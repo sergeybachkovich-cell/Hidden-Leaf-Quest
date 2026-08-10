@@ -1,49 +1,78 @@
 'use client';
 
-import styles from './TravelMaP.module.scss'
+import { useState } from 'react';
+import styles from './TravelMap.module.scss';
+import { Button } from '../../ui/Button/Button';
+
+interface MapLocationItem {
+  name: string;
+  icon: string;
+  target: string;
+  bgModifier?: string;
+}
 
 interface TravelMapProps {
-  /** Флаг состояния: открыта сейчас карта или скрыта */
-  isOpen: boolean;
-  /** Функция-обработчик для перемещения шиноби в выбранное здание */
-  onTravel: (target: 'gates' | 'armory' | 'hokage') => void;
+  /** Предохранитель сюжета: если true, значок карты полностью скрывается */
+  disabled: boolean;
+  /** Функция-обработчик перемещения шиноби */
+  onTravel: (target: string) => void;
+  /** Список локаций для отрисовки */
+  locations: MapLocationItem[];
 }
 
 /**
- * Игровой компонент интерактивной карты Конохи.
- * Отображает графические кликабельные зоны зданий и управляется флагом isOpen.
+ * Автономный компонент интерактивной карты Конохи.
+ * Управляет своим состоянием, рендерит парящий значок и сетку зданий.
  */
-export const TravelMap = ({ isOpen, onTravel }: TravelMapProps) => {
-  const { mapOverlay, mapWrapper, mapTitle, mapBuildingsGrid, buildingCard, buildingImageDummy, buildingName } = styles;
+export const TravelMap = ({ disabled, onTravel, locations }: TravelMapProps) => {
+  const { 
+    mapOverlay, mapWrapper, mapTitle, mapBuildingsGrid, 
+    buildingCard, buildingImageDummy, buildingName, mapIconButtonWrapper 
+  } = styles;
 
-  // Если заглушка флага равна false — полностью скрываем карту из разметки
-  if (!isOpen) return null;
+  // Храню стейт открытия
+  const [isMapExpanded, setIsMapExpanded] = useState(false);
+
+  // Прячу карту в диалогах
+  if (disabled) return null;
 
   return (
-    <div className={mapOverlay}>
-      <div className={mapWrapper}>
-        <span className={mapTitle}>🗺️ Карта Деревни Скрытой в Листве</span>
-        
-        <div className={mapBuildingsGrid}>
-          {/* Здание 1: Главные ворота */}
-          <div className={buildingCard} onClick={() => onTravel('gates')}>
-            <div className={`${buildingImageDummy} ${styles.gatesBg}`}>🚪</div>
-            <span className={buildingName}>Главные ворота</span>
-          </div>
+    <>
+      {/* 🗺️ ФАЗА 1: Карта развернута — показываем сетку зданий */}
+      {isMapExpanded && (
+        <div className={mapOverlay}>
+          <div className={mapWrapper}>
+            <span className={mapTitle}>🗺️ Карта Деревни Скрытой в Листве</span>
+            
+            <div className={mapBuildingsGrid}>
+              {locations.map((loc, index) => {
+                const bgClass = loc.bgModifier ? `${buildingImageDummy} ${styles[loc.bgModifier]}` : buildingImageDummy;
 
-          {/* Здание 2: Оружейная */}
-          <div className={buildingCard} onClick={() => onTravel('armory')}>
-            <div className={`${buildingImageDummy} ${styles.armoryBg}`}>⚔️</div>
-            <span className={buildingName}>Лавка Тен-Тен</span>
-          </div>
-
-          {/* Здание 3: Резиденция */}
-          <div className={buildingCard} onClick={() => onTravel('hokage')}>
-            <div className={`${buildingImageDummy} ${styles.hokageBg}`}>🏢</div>
-            <span className={buildingName}>Офис Хокаге</span>
+                return (
+                  <div 
+                    key={index} 
+                    className={buildingCard} 
+                    onClick={() => {
+                      onTravel(loc.target);
+                      setIsMapExpanded(false); // Сворачиваю после клика
+                    }}
+                  >
+                    <div className={bgClass}>{loc.icon}</div>
+                    <span className={buildingName}>{loc.name}</span>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </div>
+      )}
+
+      {/* 💡 ФАЗА 2: Парящий круглый значок карты */}
+      <div className={mapIconButtonWrapper}>
+        <Button variant="primary" onClick={() => setIsMapExpanded(!isMapExpanded)}>
+          {isMapExpanded ? '❌' : '🗺️'}
+        </Button>
       </div>
-    </div>
+    </>
   );
 };
