@@ -3,44 +3,61 @@ export interface LocationSceneText {
   description: string;
   bgImage?: string;
   characterImage?: string;
-  mainButtonText: string;
-  mainButtonCommand: string;
-  extraButtonText?: string;
-  extraButtonCommand?: string;
 }
 
-// Гарантирую наличие всех трех локаций
-export const LOCATIONS_DATA: Record<'gates' | 'armory' | 'hokage', LocationSceneText> = {
+export const LOCATIONS_DATA: Record<string, LocationSceneText> = {
   gates: {
     title: 'Главные ворота Конохи',
-    description: 'Перед вами раскинулась Деревня, Скрытая в Листве. Солнце освещает Лики Хокаге, высеченные на скале. Чунины на посту внимательно осматривают каждого входящего.',
+    description: 'Перед вами раскинулась Деревня, Скрытая в Листве. Из-за аномалии Свитка Времени здесь кипит невероятная жизнь.',
     bgImage: '/images/bg/gates.webp',
-    characterImage: undefined,
-    mainButtonText: '🕵️‍♂️ Осмотреться у ворот',
-    mainButtonCommand: 'look_around',
-    extraButtonText: '⚔️ Заглянуть в оружейную',
-    extraButtonCommand: 'armory'
+    characterImage: undefined
   },
   armory: {
     title: 'Оружейная лавка Тен-Тен',
-    description: 'Стены лавки увешаны свитками призыва, кунаями и редкими катанами. Хозяйка дружелюбно улыбается вам из-за прилавка, готовая предложить лучшее снаряжение для миссий.',
+    description: 'Стены лавки увешаны свитками призыва, кунаями и редкими катанами. Хозяйка дружелюбно улыбается вам.',
     bgImage: '/images/bg/armory.webp',
-    characterImage: '/images/sprites/tenten.webp',
-    mainButtonText: '🛒 Купить кунай (50 Рё)',
-    mainButtonCommand: 'buy_kunai',
-    extraButtonText: '🚪 Вернуться к воротам',
-    extraButtonCommand: 'gates'
+    characterImage: '/images/sprites/tenten.webp'
   },
-  // Добавил локацию Хокаге
   hokage: {
     title: 'Резиденция Хокаге',
-    description: 'В кабинете пахнет старыми свитками и табачным дымом. Седьмой Хокаге внимательно изучает карту текущих угроз. Здесь вы можете взять контракт на миссию ранга S.',
+    description: 'В просторном круглом кабинете Седьмой Хокаге и Минато изучают карты аномалий чакры в деревне.',
     bgImage: '/images/bg/hokage.webp',
-    characterImage: '/images/sprites/naruto_hokage.png',
-    mainButtonText: '📜 Взять миссию (Ранг S)',
-    mainButtonCommand: 'take_mission',
-    extraButtonText: '🚪 Вернуться к воротам',
-    extraButtonCommand: 'gates'
+    characterImage: '/images/sprites/naruto_hokage.png'
+  },
+  academy: {
+    title: 'Академия Ниндзя',
+    description: 'Святая святых, где юное поколение Конохи изучает базовые ниндзюцу и готовится сдать экзамен на Генина.',
+    bgImage: '/images/bg/gates.webp',
+    characterImage: '/images/sprites/tenten.webp'
+  },
+  senju_mansion: {
+    title: 'Дом 1-го Хокаге',
+    description: 'Традиционное поместье Сенджу. На татами Мито Узумаки (80 лет) дает мудрые советы Хашираме и Наваки.',
+    bgImage: '/images/bg/gates.webp',
+    characterImage: '/images/sprites/tenten.webp'
+  },
+  uchiha_district: {
+    title: 'Квартал клана Учиха',
+    description: 'Величественные улочки с гербами-веерами. На полигоне Итачи, Саске, Шисуи и Изуми устроили совместную тренировку.',
+    bgImage: '/images/bg/gates.webp',
+    characterImage: '/images/sprites/tenten.webp'
+  },
+  minato_house: {
+    title: 'Дом Минато и Кушины',
+    description: 'Светлый, уютный дом молодой семьи Узумаки, куда часто залетают погреться тринадцатилетние Обито и Рин.',
+    bgImage: '/images/bg/gates.webp',
+    characterImage: '/images/sprites/tenten.webp'
+  },
+  naruto_apartment: {
+    title: 'Дом Узумаки Наруто',
+    description: 'Холостяцкая квартирка Наруто (15 лет), заваленная коробками из-под рамена, куда он сбегает от контроля родителей.',
+    bgImage: '/images/bg/gates.webp',
+    characterImage: '/images/sprites/tenten.webp'
+  },
+  kakashi_house: {
+    title: 'Дом Какаши Хатаке',
+    description: 'Аскетичное жилище Хатаке. Сакумо Белый Клык чистит свой клинок, пока молодой Какаши и Ямато пьют чай.',
+    bgImage: '/images/bg/gates.webp',
+    characterImage: '/images/sprites/tenten.webp'
   }
 };
-
