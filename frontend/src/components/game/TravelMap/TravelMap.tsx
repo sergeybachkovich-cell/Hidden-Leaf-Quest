@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import styles from './TravelMap.module.scss';
+import styles from './TravelMaP.module.scss';
 import { Button } from '../../ui/Button/Button';
 
 interface MapLocationItem {
