@@ -29,13 +29,13 @@
 
   .characterSpriteContainer {
     position: absolute;
-    bottom: 200px;
-    left: 50%;
+    bottom: 250px;
+    left: 90%;
     transform: translateX(-50%);
     z-index: 2;
 
     .characterImg {
-      max-height: 300px;
+      max-height: 550px;
       object-fit: contain;
     }
   }

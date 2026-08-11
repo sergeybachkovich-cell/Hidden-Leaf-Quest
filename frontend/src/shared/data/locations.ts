@@ -25,7 +25,7 @@ export const LOCATIONS_DATA: Record<'gates' | 'armory' | 'hokage', LocationScene
     title: 'Оружейная лавка Тен-Тен',
     description: 'Стены лавки увешаны свитками призыва, кунаями и редкими катанами. Хозяйка дружелюбно улыбается вам из-за прилавка, готовая предложить лучшее снаряжение для миссий.',
     bgImage: '/images/bg/armory.webp',
-    characterImage: '/images/sprites/tenten.png',
+    characterImage: '/images/sprites/tenten.webp',
     mainButtonText: '🛒 Купить кунай (50 Рё)',
     mainButtonCommand: 'buy_kunai',
     extraButtonText: '🚪 Вернуться к воротам',
