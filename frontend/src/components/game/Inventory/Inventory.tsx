@@ -18,7 +18,8 @@ export const Inventory = ({ disabled, isOpen, onClose, inventoryRecords, setInve
   const [activeSlot, setActiveSlot] = useState<number | null>(null);
 
   const cells = Array(12).fill(null);
-  inventoryRecords.forEach((r) => {
+  // ИСПРАВЛЕНИЕ 1: добавлен тип : any
+  inventoryRecords.forEach((r: any) => {
     if (r && r.slotIndex >= 0 && r.slotIndex < 12) cells[r.slotIndex] = r;
   });
 
@@ -33,10 +34,11 @@ export const Inventory = ({ disabled, isOpen, onClose, inventoryRecords, setInve
           if (currentItem.itemId === "kunai") {
             alert("🎯 Вы метнули кунай!");
           } else {
-            alert("🎒 Использован предмет: " + ITEMS_DB[currentItem.itemId].name);
+            alert("🎒 Использован предмет: " + (ITEMS_DB as any)[currentItem.itemId].name);
           }
           
-          let updated = inventoryRecords.map(r => {
+          // ИСПРАВЛЕНИЕ 2: добавлен тип (r: any)
+          let updated = inventoryRecords.map((r: any) => {
             if (r && r.slotIndex === index) {
               return r.count > 1 ? { ...r, count: r.count - 1 } : null;
             }
@@ -47,7 +49,8 @@ export const Inventory = ({ disabled, isOpen, onClose, inventoryRecords, setInve
         setActiveSlot(null);
       } else {
         if (setInventoryRecords) {
-          let updated = inventoryRecords.map(r => {
+          // ИСПРАВЛЕНИЕ 3: добавлен тип (r: any)
+          let updated = inventoryRecords.map((r: any) => {
             if (r && r.slotIndex === activeSlot) {
               return { ...r, slotIndex: index };
             }
@@ -61,7 +64,7 @@ export const Inventory = ({ disabled, isOpen, onClose, inventoryRecords, setInve
   };
 
   const selectedRecord = activeSlot !== null ? cells[activeSlot] : null;
-  const selectedItemData = selectedRecord ? ITEMS_DB[selectedRecord.itemId] : null;
+  const selectedItemData = selectedRecord ? (ITEMS_DB as any)[selectedRecord.itemId] : null;
 
   return (
     <div className={invOverlay}>
@@ -72,7 +75,7 @@ export const Inventory = ({ disabled, isOpen, onClose, inventoryRecords, setInve
         </div>
         <div className={invGrid}>
           {cells.map((record, index) => {
-            const itemData = record ? ITEMS_DB[record.itemId] : null;
+            const itemData = record ? (ITEMS_DB as any)[record.itemId] : null;
             const isSelected = activeSlot === index;
             return (
               <div 
