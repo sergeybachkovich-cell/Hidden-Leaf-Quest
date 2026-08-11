@@ -1,30 +1,67 @@
 "use client";
 import { useState } from "react";
 import styles from "./Inventory.module.scss";
-import { ITEMS_DB, UserInventoryRecord } from "@/shared/data/items";
+import { ITEMS_DB } from "@/shared/data/items";
 
 interface InventoryProps {
   disabled: boolean;
   isOpen: boolean;
   onClose: () => void;
-  inventoryRecords: UserInventoryRecord[];
+  inventoryRecords: any[];
+  setInventoryRecords?: (records: any[]) => void;
 }
 
-export const Inventory = ({ disabled, isOpen, onClose, inventoryRecords }: InventoryProps) => {
+export const Inventory = ({ disabled, isOpen, onClose, inventoryRecords, setInventoryRecords }: any) => {
   if (disabled || !isOpen) return null;
 
   const { invOverlay, invWrapper, invHeader, invTitle, closeBtn, invGrid, invCell, itemIcon, itemCount, infoBox, infoTitle, infoDesc } = styles;
-  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
+  const [activeSlot, setActiveSlot] = useState<number | null>(null);
 
   const cells = Array(12).fill(null);
-  inventoryRecords.forEach((record) => {
-    if (record.slotIndex >= 0 && record.slotIndex < 12) {
-      cells[record.slotIndex] = record;
-    }
+  inventoryRecords.forEach((r) => {
+    if (r && r.slotIndex >= 0 && r.slotIndex < 12) cells[r.slotIndex] = r;
   });
 
-  const selectedItemData = selectedItemId ? ITEMS_DB[selectedItemId] : null;
-  const selectedRecord = inventoryRecords.find((r) => r.itemId === selectedItemId);
+  const handleCellClick = (index: number) => {
+    const currentItem = cells[index];
+
+    if (activeSlot === null) {
+      if (currentItem) setActiveSlot(index);
+    } else {
+      if (activeSlot === index) {
+        if (currentItem && setInventoryRecords) {
+          if (currentItem.itemId === "kunai") {
+            alert("🎯 Вы метнули кунай!");
+          } else {
+            alert("🎒 Использован предмет: " + ITEMS_DB[currentItem.itemId].name);
+          }
+          
+          let updated = inventoryRecords.map(r => {
+            if (r && r.slotIndex === index) {
+              return r.count > 1 ? { ...r, count: r.count - 1 } : null;
+            }
+            return r;
+          }).filter(Boolean);
+          setInventoryRecords(updated);
+        }
+        setActiveSlot(null);
+      } else {
+        if (setInventoryRecords) {
+          let updated = inventoryRecords.map(r => {
+            if (r && r.slotIndex === activeSlot) {
+              return { ...r, slotIndex: index };
+            }
+            return r;
+          });
+          setInventoryRecords(updated);
+        }
+        setActiveSlot(null);
+      }
+    }
+  };
+
+  const selectedRecord = activeSlot !== null ? cells[activeSlot] : null;
+  const selectedItemData = selectedRecord ? ITEMS_DB[selectedRecord.itemId] : null;
 
   return (
     <div className={invOverlay}>
@@ -36,8 +73,14 @@ export const Inventory = ({ disabled, isOpen, onClose, inventoryRecords }: Inven
         <div className={invGrid}>
           {cells.map((record, index) => {
             const itemData = record ? ITEMS_DB[record.itemId] : null;
+            const isSelected = activeSlot === index;
             return (
-              <div key={index} className={invCell} onClick={() => record && setSelectedItemId(record.itemId)}>
+              <div 
+                key={index} 
+                className={invCell} 
+                onClick={() => handleCellClick(index)}
+                style={isSelected ? { border: "2px solid #ff6b00", background: "rgba(255, 107, 0, 0.1)" } : {}}
+              > 
                 {itemData && record && (
                   <div className={itemIcon}>
                     {itemData.icon}
@@ -50,12 +93,12 @@ export const Inventory = ({ disabled, isOpen, onClose, inventoryRecords }: Inven
         </div>
         {selectedItemData && selectedRecord ? (
           <div className={infoBox}>
-            <span className={infoTitle}>{selectedItemData.name}</span>
+            <span className={infoTitle}>{selectedItemData.name} (Выбран)</span>
             <p className={infoDesc}>{selectedItemData.description}</p>
           </div>
         ) : (
           <div className={infoBox}>
-            <p className={infoDesc}>Выберите предмет для просмотра описания</p>
+            <p className={infoDesc}>Кликните по предмету, чтобы выбрать его. Повторный клик — использовать. Клик по пустой ячейке — переместить.</p>
           </div>
         )}
       </div>
