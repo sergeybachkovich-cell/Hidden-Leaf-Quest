@@ -3,6 +3,7 @@ import styles from "./LocationViewport.module.scss";
 interface LocationViewportProps {
   scrBg?: string;
   scrPers?: string;
+  characterStyle?: React.CSSProperties; 
 }
 
 export const LocationViewport = (props: LocationViewportProps) => {
